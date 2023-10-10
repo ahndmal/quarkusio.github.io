@@ -22,6 +22,13 @@ module Jekyll
 
   class GenerateSocialImagesGenerator < Generator
     def generate(site)
+      # Check if skip_social_images is set to true
+      # If so, skip generating social images
+      # This is useful when running the site locally
+      if site.config['skip_social_images']
+        Jekyll.logger.info('Skipping social image generation')
+        return
+      end
       guides = Dir.glob(File.join(site.source, '_guides', '*.adoc'))
       output_dir = 'assets/images/social'
       FileUtils.mkdir_p(File.join(site.source, output_dir))
